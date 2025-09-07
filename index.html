@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Art-House Horror</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+        :root {
+            --accent: #ff3b30;
+            --bg: #111;
+            --surface: #1a1a1a;
+            --text: #f2f2f2;
+            --grey: #888;
+        }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Poppins', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* ---------- WHITE HEADER ---------- */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            background: #fff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 1.5rem;
+        }
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+        }
+        .logo-hk {
+            height: 32px;
+            width: auto;
+        }
+        .logo-hyky {
+            height: 28px;
+            width: auto;
+            transition: transform 0.6s ease;
+        }
+        .logo-wrap:hover .logo-hyky {
+            transform: rotate(360deg);
+        }
+        .socials {
+            display: flex;
+            gap: 0.75rem;
+        }
+        .socials svg {
+            width: 22px;
+            height: 22px;
+            fill: var(--grey);
+            transition: fill 0.2s;
+        }
+        .socials a:hover svg {
+            fill: var(--accent);
+        }
+
+        /* ---------- STATIC CARD + OVERLAY FADE ON OPEN ---------- */
+        .card {
+            position: relative;
+            width: 100%;
+            background: var(--surface) center/cover no-repeat;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        .card-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0);
+            pointer-events: none;
+            transition: background 0.4s ease;
+        }
+        .card.open .card-overlay {
+            background: rgba(0, 0, 0, 0.45);
+        }
+        .card summary {
+            position: relative;
+            list-style: none;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem;
+            font-size: 1.25rem;
+            font-weight: 500;
+            user-select: none;
+            z-index: 1;
+        }
+        .card summary::-webkit-details-marker {
+            display: none;
+        }
+        .summary-icon {
+            width: 24px;
+            height: 24px;
+            transition: transform 0.4s ease;
+        }
+        .card[open] .summary-icon {
+            transform: rotate(45deg);
+        }
+
+        /* ---------- SLOW HORIZONTAL DRAWER ---------- */
+        .drawer {
+            position: relative;
+            overflow: hidden;
+            background: rgba(0, 0, 0, 0.05);
+            clip-path: inset(0 100% 0 0);
+            transition: clip-path 0.7s ease 0.3s;
+        }
+        .card[open] .drawer {
+            clip-path: inset(0 0 0 0);
+        }
+        .drawer-inner {
+            padding: 0 1.5rem 1.5rem;
+        }
+        .blurb {
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #ddd;
+        }
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .video-container video {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 4px;
+        }
+
+        /* ---------- FOOTER ---------- */
+        footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.875rem;
+            color: #888;
+        }
+  </style>
+</head>
+<body>
+    <!-- ================= HEADER ================= -->
+    <header>
+        <div class="logo-wrap" id="refreshHeader">
+            <img src="hk_logo_font_corret.png" alt="HK" class="logo-hk">
+            <img src="hyky_loch_logo.png" alt="HyKy" class="logo-hyky">
+        </div>
+        <div class="socials">
+            <a href="#" aria-label="Twitter"><svg viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/></svg></a>
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M7 2c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2H7zm0 2h10v16H7V4zm5 3a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 2a3 3 0 1 1 0 6 3 3 0 0 1 0-6zm6-2a1 1 0 1 0 0 2 1 1 0 0 0 0-2z"/></svg></a>
+            <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24"><path d="M21.58 7.19c-.23-.86-.9-1.52-1.75-1.75C18.26 5 12 5 12 5s-6.26 0-7.83.44c-.85.23-1.52.9-1.75 1.75C2 8.75 2 12 2 12s0 3.25.42 4.81c.23.86.9 1.52 1.75 1.75C5.74 19 12 19 12 19s6.26 0 7.83-.44c.85-.23 1.52-.9 1.75-1.75C22 15.25 22 12 22 12s0-3.25-.42-4.81zM9.5 15.5V8.5l6 3.5-6 3.5z"/></svg></a>
+        </div>
+    </header>
+
+    <!-- ================= MAIN STACK ================= -->
+    <main id="main"></main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer>
+        &copy; <span id="year"></span> Art-House Horror. All rights reserved.
+    </footer>
+
+    <script>
+        /* ---------- DATA (visible placeholder images) ---------- */
+        const films = [
+            {
+                title: "The Lighthouse",
+                blurb: "Two lighthouse keepers slip into maddening isolation on a storm-swept rock. A monochrome fever dream of myth and sea-salt dread.",
+                poster: "https://images.unsplash.com/photo-1507525428034-b723a9ce6890?auto=format&fit=crop&w=1350&q=80",
+                trailer: "https://www.w3schools.com/html/mov_bbb.mp4"
+            },
+            {
+                title: "Hereditary",
+                blurb: "After the matriarch’s death, the Graham family unravels a sinister inheritance. Grief becomes cosmic terror.",
+                poster: "https://images.unsplash.com/photo-1544733422-263e5366a4f4?auto=format&fit=crop&w=1350&q=80",
+                trailer: "https://www.w3schools.com/html/mov_bbb.mp4"
+            },
+            {
+                title: "Midsommar",
+                blurb: "A sun-drenched Swedish commune welcomes grieving Americans. Daylight has never felt this unsafe.",
+                poster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1350&q=80",
+                trailer: "https://www.w3schools.com/html/mov_bbb.mp4"
+            },
+            {
+                title: "The Witch",
+                blurb: "1630s New England. A banished family confronts the woods—and something older than sin.",
+                poster: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1350&q=80",
+                trailer: "https://www.w3schools.com/html/mov_bbb.mp4"
+            },
+            {
+                title: "Talk to Me",
+                blurb: "A severed embalmed hand is the party drug. One grip too long and the door stays open.",
+                poster: "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=1350&q=80",
+                trailer: "https://www.w3schools.com/html/mov_bbb.mp4"
+            },
+            {
+                title: "The Killing of a Sacred Deer",
+                blurb: "A teenage boy infiltrates a surgeon’s perfect family. Modern-day Greek tragedy with surgical coldness.",
+                poster: "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?auto=format&fit=crop&w=1350&q=80",
+                trailer: "https://www.w3schools.com/html/mov_bbb.mp4"
+            },
+            {
+                title: "Green Room",
+                blurb: "A punk band witnesses a murder in a neo-Nazi bar. Now the exit door is locked.",
+                poster: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1350&q=80",
+                trailer: "https://www.w3schools.com/html/mov_bbb.mp4"
+            },
+            {
+                title: "Pearl",
+                blurb: "Farm-girl obsession, Technicolor dreams, and a body count that keeps the alligators fed.",
+                poster: "https://images.unsplash.com/photo-1509316785289-025f5b846b35?auto=format&fit=crop&w=1350&q=80",
+                trailer: "https://www.w3schools.com/html/mov_bbb.mp4"
+            }
+        ];
+
+        /* ---------- BUILD STACK ---------- */
+        const main = document.getElementById('main');
+        films.forEach((f, idx) => {
+            const card = document.createElement('details');
+            card.className = 'card';
+            card.dataset.index = idx;
+            card.innerHTML = `
+                <div class="card-bg" style="background-image:url(${f.poster})"></div>
+                <div class="card-overlay"></div>
+                <summary>${f.title}<img src="hyky_loch_logo.png" class="summary-icon" alt="toggle"></summary>
+                <div class="drawer">
+                    <div class="drawer-inner">
+                        <p class="blurb">${f.blurb}</p>
+                        <div class="video-container">
+                            <video controls preload="metadata" poster="${f.poster}">
+                                <source src="${f.trailer}" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+                </div>
+            `;
+            main.appendChild(card);
+        });
+
+        /* ---------- ONE OPEN + STOP VIDEO + OVERLAY FADE ---------- */
+        main.addEventListener('toggle', e => {
+            const card = e.target;
+            const video = card.querySelector('video');
+            if (card.open) {
+                [...main.querySelectorAll('video')].forEach(v => {
+                    if (v !== video) v.pause();
+                });
+                [...main.children].forEach(child => {
+                    if (child !== card) child.open = false;
+                });
+                card.classList.add('open');
+            } else {
+                video.pause();
+                video.currentTime = 0;
+                card.classList.remove('open');
+            }
+        });
+
+        /* ---------- HEADER REFRESH ---------- */
+        document.getElementById('refreshHeader').addEventListener('click', () => location.reload());
+
+        /* ---------- FOOTER YEAR ---------- */
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
